@@ -24,7 +24,11 @@ def connect_to_host(host):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try: 
             sock.connect((host, i))
-            break
+            try:
+                service = socket.getservbyport(i, "tcp")
+                print(service)
+            except:
+                print("NA") 
         except:
             num_open -= 1
 
