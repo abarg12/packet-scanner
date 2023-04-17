@@ -1,6 +1,7 @@
 import sys
 import argparse
 import socket
+import time
 
 
 if sys.version_info[0] != 2 or sys.version_info[1] != 7:
@@ -19,6 +20,9 @@ def main():
 
 def connect_to_host(host):
     num_open = 65535
+    f = open("scanner.txt", "w")
+
+    start_time = time.time()
 
     for i in range(65536):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -26,14 +30,18 @@ def connect_to_host(host):
             sock.connect((host, i))
             try:
                 service = socket.getservbyport(i, "tcp")
-                print(service)
+                string_out = str(i) + " (" + service + ") was open\n"
+                f.write(string_out)
             except:
-                print("NA") 
+                string_out = str(i) + " (NA) was open\n"
+                f.write(string_out)
         except:
             num_open -= 1
 
-    print(num_open)
-
+    total_time = time.time() - start_time
+    f.write(str(total_time) + "s\n")
+    f.write(str(total_time / 65535) + "s\n")
+    f.close()
 
 
 def parse_input():
@@ -44,3 +52,4 @@ def parse_input():
 
 if __name__ == "__main__":
     main()
+
