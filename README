@@ -1,0 +1,4 @@
+Encountered the issue of getting random high port destination address
+and duplicate packets (using an Ubuntu WSL). Solved by ignoring all
+packets without the SYN flag and ignoring duplicate packets as 
+suggested in note 138 on Piazza.

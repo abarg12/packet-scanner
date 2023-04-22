@@ -46,9 +46,15 @@ def process_pkt(pkt):
         purge_old(ip_src)
         #print(pkt_record[ip_src])
         #print(pkt_record[ip_src][-1][0])
-        #print(port_dst)
 
-        if pkt_record[ip_src][-1][0] != (port_dst - 1):
+        ### encountered issue of Ubuntu doubling up packets
+        if pkt_record[ip_src][-1][0] == port_dst:
+            return
+        ### encountered issue of random high port when sending from loopback
+        ### so only process packets with SYN flag set (0x02)
+        elif not (pkt[2].flags & 0x02):
+            return
+        elif pkt_record[ip_src][-1][0] != (port_dst - 1):
             pkt_record[ip_src] = [(port_dst, time.time())]
         elif len(pkt_record[ip_src]) >= 15:
             f.write("Scanner detected. The scanner originated from host " + str(ip_src) + ".\n")

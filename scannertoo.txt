@@ -5,10 +5,10 @@
 28595 (NA) was open
 30142 (NA) was open
 38135 (NA) was open
+42576 (NA) was open
 45421 (NA) was open
 47536 (NA) was open
 47703 (NA) was open
-51330 (NA) was open
-56240 (NA) was open
-1.393646001815796s
-2.126567485795065e-05s
+56268 (NA) was open
+1.3755440711975098s
+2.0989457102273745e-05s
