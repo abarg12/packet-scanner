@@ -1,13 +1,4 @@
-2437 (NA) was open
-4911 (NA) was open
-6969 (NA) was open
-7150 (NA) was open
-19214 (NA) was open
-33268 (NA) was open
-35350 (NA) was open
-40395 (NA) was open
-44142 (NA) was open
-48168 (NA) was open
-54688 (NA) was open
-0.756271123886s
-1.15399576392e-05s
+50832 (NA) was open
+55552 (NA) was open
+1.4167346954345703s
+2.1617985739445646e-05s
