@@ -9,9 +9,12 @@ import signal
 # to remember which clients scanned what
 pkt_record = {}
 
+global f
+
 
 
 def signal_handler(sig, frame):
+    f.close()
     sys.exit(0)
 
 signal.signal(signal.SIGINT, signal_handler)
@@ -19,14 +22,19 @@ signal.signal(signal.SIGINT, signal_handler)
 
 
 def listen_loop():
+    global f
+    f = open("detector.txt", "w")
     while(1):
         packets = sniff(iface="lo", prn=process_pkt, store=0)
+    f.close()
 
 
 
 def process_pkt(pkt):
+    global f
     ip_src = str(pkt[1].src)
     port_dst = pkt[2].dport
+    #print(port_dst)
 
     if ip_src not in pkt_record:
         pkt_record[ip_src] = [(port_dst, time.time())]
@@ -36,9 +44,14 @@ def process_pkt(pkt):
             return
     else:
         purge_old(ip_src)
+        #print(pkt_record[ip_src])
+        #print(pkt_record[ip_src][-1][0])
+        #print(port_dst)
 
-        if len(pkt_record[ip_src]) >= 14:
-            print("Scanner detected. The scanner originated from host " + str(ip_src) + ".")
+        if pkt_record[ip_src][-1][0] != (port_dst - 1):
+            pkt_record[ip_src] = [(port_dst, time.time())]
+        elif len(pkt_record[ip_src]) >= 15:
+            f.write("Scanner detected. The scanner originated from host " + str(ip_src) + ".\n")
             pkt_record[ip_src] = None 
         else:
             pkt_record[ip_src].append((port_dst, time.time()))
